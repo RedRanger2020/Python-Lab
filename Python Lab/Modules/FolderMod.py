@@ -1,14 +1,14 @@
 import os
 
 '''
-Этот модуль работает с файлами
+Р­С‚РѕС‚ РјРѕРґСѓР»СЊ СЂР°Р±РѕС‚Р°РµС‚ СЃ С„Р°Р№Р»Р°РјРё
 '''
 class FolderMod:
     
     def __createFolders(path):
         '''
-        создает папки по адресу
-        @path - путь к папке
+        СЃРѕР·РґР°РµС‚ РїР°РїРєРё РїРѕ Р°РґСЂРµСЃСѓ
+        @path - РїСѓС‚СЊ Рє РїР°РїРєРµ
         '''
         if not os.path.isdir(path):
             os.makedirs(path)
@@ -16,54 +16,54 @@ class FolderMod:
 
     def __createDataFolder(name):
         '''
-        создает папку для датасета
-        @name - имя датасета
+        СЃРѕР·РґР°РµС‚ РїР°РїРєСѓ РґР»СЏ РґР°С‚Р°СЃРµС‚Р°
+        @name - РёРјСЏ РґР°С‚Р°СЃРµС‚Р°
         '''
         path = f'datasets\\{name}'
         return FolderMod.__createFolders(path)
 
     def __getSystemsPath(name):
         '''
-        получает путь к системным данным
-        @name - имя датасета
+        РїРѕР»СѓС‡Р°РµС‚ РїСѓС‚СЊ Рє СЃРёСЃС‚РµРјРЅС‹Рј РґР°РЅРЅС‹Рј
+        @name - РёРјСЏ РґР°С‚Р°СЃРµС‚Р°
         '''
         path = FolderMod.__createDataFolder(name)
         return FolderMod.__createFolders(path + f'\\__systems')
 
     def getUsedUrlPath(name):
         '''
-        получает путь к обработанному файлу
-        @name - имя датасета
+        РїРѕР»СѓС‡Р°РµС‚ РїСѓС‚СЊ Рє РѕР±СЂР°Р±РѕС‚Р°РЅРЅРѕРјСѓ С„Р°Р№Р»Сѓ
+        @name - РёРјСЏ РґР°С‚Р°СЃРµС‚Р°
         '''
         return FolderMod.__getSystemsPath(name) + f'\\url.txt'
 
     def getPagePath(name):
         '''
-        получает последнюю загруженную страницу
-        @name - имя датасета
+        РїРѕР»СѓС‡Р°РµС‚ РїРѕСЃР»РµРґРЅСЋСЋ Р·Р°РіСЂСѓР¶РµРЅРЅСѓСЋ СЃС‚СЂР°РЅРёС†Сѓ
+        @name - РёРјСЏ РґР°С‚Р°СЃРµС‚Р°
         '''
         return FolderMod.__getSystemsPath(name) + f'\\page.txt'
 
     def getSourcesPath(name):
         '''
-        получает путь к папке с исходными изображениями
-        @name - имя датасета
+        РїРѕР»СѓС‡Р°РµС‚ РїСѓС‚СЊ Рє РїР°РїРєРµ СЃ РёСЃС…РѕРґРЅС‹РјРё РёР·РѕР±СЂР°Р¶РµРЅРёСЏРјРё
+        @name - РёРјСЏ РґР°С‚Р°СЃРµС‚Р°
         '''
         path = FolderMod.__createDataFolder(name)
         return FolderMod.__createFolders(path + f'\\sources')
     
     def getSmallPath(name):
         '''
-        получает путь к папке со сжатыми изображениями
-        @name - имя датасета
+        РїРѕР»СѓС‡Р°РµС‚ РїСѓС‚СЊ Рє РїР°РїРєРµ СЃРѕ СЃР¶Р°С‚С‹РјРё РёР·РѕР±СЂР°Р¶РµРЅРёСЏРјРё
+        @name - РёРјСЏ РґР°С‚Р°СЃРµС‚Р°
         '''
         path = FolderMod.__createDataFolder(name)
         return FolderMod.__createFolders(path + f'\\small_sources')
 
     def getLastPage(name):
         '''
-        получает последнюю скачанную страницу для запроса
-        @name - имя датасета
+        РїРѕР»СѓС‡Р°РµС‚ РїРѕСЃР»РµРґРЅСЋСЋ СЃРєР°С‡Р°РЅРЅСѓСЋ СЃС‚СЂР°РЅРёС†Сѓ РґР»СЏ Р·Р°РїСЂРѕСЃР°
+        @name - РёРјСЏ РґР°С‚Р°СЃРµС‚Р°
         '''
         path = FolderMod.getPagePath(name)
         pageCount = 0
@@ -74,8 +74,8 @@ class FolderMod:
 
     def getUsedUrl(name):
         '''
-        получает список обработанных ссылок на изображения
-        @name - имя датасета
+        РїРѕР»СѓС‡Р°РµС‚ СЃРїРёСЃРѕРє РѕР±СЂР°Р±РѕС‚Р°РЅРЅС‹С… СЃСЃС‹Р»РѕРє РЅР° РёР·РѕР±СЂР°Р¶РµРЅРёСЏ
+        @name - РёРјСЏ РґР°С‚Р°СЃРµС‚Р°
         '''
         path = FolderMod.getUsedUrlPath(name)
         usedURL = []
@@ -86,8 +86,8 @@ class FolderMod:
 
     def saveLastPage(name, page):
         '''
-        сохраняет последнюю скачанную страницу
-        @name - имя датасета
+        СЃРѕС…СЂР°РЅСЏРµС‚ РїРѕСЃР»РµРґРЅСЋСЋ СЃРєР°С‡Р°РЅРЅСѓСЋ СЃС‚СЂР°РЅРёС†Сѓ
+        @name - РёРјСЏ РґР°С‚Р°СЃРµС‚Р°
         '''
         path = FolderMod.getPagePath(name)
         with open(path, 'w') as file:

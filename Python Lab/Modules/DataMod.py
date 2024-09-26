@@ -11,7 +11,7 @@ from fake_useragent import UserAgent
 from fp.fp import FreeProxy
 
 '''
-Класс отвечает за получение и загрузку данных
+РљР»Р°СЃСЃ РѕС‚РІРµС‡Р°РµС‚ Р·Р° РїРѕР»СѓС‡РµРЅРёРµ Рё Р·Р°РіСЂСѓР·РєСѓ РґР°РЅРЅС‹С…
 '''
 class DataMod(object):
     
@@ -21,17 +21,17 @@ class DataMod(object):
     
     def __parsePage(page,query):
         '''
-        Разбор кода html страницы
-        @page - номер страницы
-        @query - запрос
+        Р Р°Р·Р±РѕСЂ РєРѕРґР° html СЃС‚СЂР°РЅРёС†С‹
+        @page - РЅРѕРјРµСЂ СЃС‚СЂР°РЅРёС†С‹
+        @query - Р·Р°РїСЂРѕСЃ
         '''
         content = DataMod.__getHtml(page, query, False)
-        #получаем содержимое страницы
+        #РїРѕР»СѓС‡Р°РµРј СЃРѕРґРµСЂР¶РёРјРѕРµ СЃС‚СЂР°РЅРёС†С‹
         rootDiv = None
         while rootDiv is None:
             root = BeautifulSoup(content, 'html.parser')
             rootDiv = root.find('div', class_="Root", id=lambda x: x and x.startswith('ImagesApp-'))
-            #проверка на капчу
+            #РїСЂРѕРІРµСЂРєР° РЅР° РєР°РїС‡Сѓ
             if(rootDiv is None):
                 DataMod.lastProxies = {}
                 print(f'Capcha on {page} page.') 
@@ -42,7 +42,7 @@ class DataMod(object):
         jent = jdata['initialState']['serpList']['items']['entities']
         
         links = []
-        #получаем url оригинальных изображений
+        #РїРѕР»СѓС‡Р°РµРј url РѕСЂРёРіРёРЅР°Р»СЊРЅС‹С… РёР·РѕР±СЂР°Р¶РµРЅРёР№
         for item in jent:
             url = jent[item]['origUrl'];
             print(url)
@@ -53,7 +53,7 @@ class DataMod(object):
 
     def __getHeaders():
          '''
-         Получение случайного заголовка страницы
+         РџРѕР»СѓС‡РµРЅРёРµ СЃР»СѓС‡Р°Р№РЅРѕРіРѕ Р·Р°РіРѕР»РѕРІРєР° СЃС‚СЂР°РЅРёС†С‹
          '''
          ua = UserAgent(os='windows',min_percentage=40)
          headers = {'User-Agent': ua.random,
@@ -66,11 +66,11 @@ class DataMod(object):
 
     def __download(name, url, nameFile, newLoad):
         '''
-        Скачивание изображения по ссылке
-        @name - запрос
-        @url - ссылка на изображение
-        @nameFile - название файла
-        @newLoad - индикатор первый ли вызов функции
+        РЎРєР°С‡РёРІР°РЅРёРµ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ РїРѕ СЃСЃС‹Р»РєРµ
+        @name - Р·Р°РїСЂРѕСЃ
+        @url - СЃСЃС‹Р»РєР° РЅР° РёР·РѕР±СЂР°Р¶РµРЅРёРµ
+        @nameFile - РЅР°Р·РІР°РЅРёРµ С„Р°Р№Р»Р°
+        @newLoad - РёРЅРґРёРєР°С‚РѕСЂ РїРµСЂРІС‹Р№ Р»Рё РІС‹Р·РѕРІ С„СѓРЅРєС†РёРё
         '''
         HEADERS = DataMod.__getHeaders()
         path = fm.getSourcesPath(name);
@@ -81,11 +81,11 @@ class DataMod(object):
                     print(f'Download file[{nameFile}]: {url}')
                     return True
         except requests.exceptions.SSLError as e:
-            # Узнаем имя возникшего исключения
+            # РЈР·РЅР°РµРј РёРјСЏ РІРѕР·РЅРёРєС€РµРіРѕ РёСЃРєР»СЋС‡РµРЅРёСЏ
             print(e.__class__.__name__ + f': {url}')
             return False
         except Exception as e:
-            # Узнаем имя возникшего исключения
+            # РЈР·РЅР°РµРј РёРјСЏ РІРѕР·РЅРёРєС€РµРіРѕ РёСЃРєР»СЋС‡РµРЅРёСЏ
             print(e.__class__.__name__ + f': {url}')
             DataMod.__await(randint(1,5))
             if newLoad:
@@ -95,8 +95,8 @@ class DataMod(object):
 
     def __await(sec):
         '''
-        Ожидание с выводом в консоль
-        @sec - количество секунд
+        РћР¶РёРґР°РЅРёРµ СЃ РІС‹РІРѕРґРѕРј РІ РєРѕРЅСЃРѕР»СЊ
+        @sec - РєРѕР»РёС‡РµСЃС‚РІРѕ СЃРµРєСѓРЅРґ
         '''
         for i in range(sec, 0, -1):
             print(f'Sleep: {i:03} s', end = '\r')
@@ -104,9 +104,9 @@ class DataMod(object):
 
     def imgSearch(name, needCount):
         '''
-        Поиск изображения по запросу
-        @name - запрос
-        @needCount - необходимое количество изображений
+        РџРѕРёСЃРє РёР·РѕР±СЂР°Р¶РµРЅРёСЏ РїРѕ Р·Р°РїСЂРѕСЃСѓ
+        @name - Р·Р°РїСЂРѕСЃ
+        @needCount - РЅРµРѕР±С…РѕРґРёРјРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ РёР·РѕР±СЂР°Р¶РµРЅРёР№
         '''
 
         urls = []
@@ -139,10 +139,10 @@ class DataMod(object):
 
     def __printInfoConnect(url, proxy, headers):
         '''
-        Вывод информации о текущем подключении
-        @url - ссылка для подключения
+        Р’С‹РІРѕРґ РёРЅС„РѕСЂРјР°С†РёРё Рѕ С‚РµРєСѓС‰РµРј РїРѕРґРєР»СЋС‡РµРЅРёРё
+        @url - СЃСЃС‹Р»РєР° РґР»СЏ РїРѕРґРєР»СЋС‡РµРЅРёСЏ
         @proxy - ip proxy
-        @headers - заголовки строки подключения
+        @headers - Р·Р°РіРѕР»РѕРІРєРё СЃС‚СЂРѕРєРё РїРѕРґРєР»СЋС‡РµРЅРёСЏ
         '''
         if not proxy:
             proxy = 'no'
@@ -155,10 +155,10 @@ class DataMod(object):
 
     def __getHtml(page, query, needProxy):
         '''
-        Получение кода html страницы
-        @page - номер страницы
-        @query - запрос
-        @needProxy - необходимость прокси для подключения
+        РџРѕР»СѓС‡РµРЅРёРµ РєРѕРґР° html СЃС‚СЂР°РЅРёС†С‹
+        @page - РЅРѕРјРµСЂ СЃС‚СЂР°РЅРёС†С‹
+        @query - Р·Р°РїСЂРѕСЃ
+        @needProxy - РЅРµРѕР±С…РѕРґРёРјРѕСЃС‚СЊ РїСЂРѕРєСЃРё РґР»СЏ РїРѕРґРєР»СЋС‡РµРЅРёСЏ
         '''
         URL = f'https://yandex.ru/images/touch/search?from=tabbar&p={page}&text={query}&itype=jpg'
         HEADERS = DataMod.__getHeaders()
@@ -174,7 +174,7 @@ class DataMod(object):
                     proxies = { 'http': proxy, 'https': proxy }
                     DataMod.lastProxies = proxies
                 except Exception as e:
-                    # Узнаем имя возникшего исключения
+                    # РЈР·РЅР°РµРј РёРјСЏ РІРѕР·РЅРёРєС€РµРіРѕ РёСЃРєР»СЋС‡РµРЅРёСЏ
                     print(e.__class__.__name__ + ' in find proxy')  
                     DataMod.__await(5);
                     DataMod.lastProxies = ''
@@ -196,16 +196,16 @@ class DataMod(object):
 
     def reinitIndexs(name):
         '''
-        Изменение номеров файлов по порядку 0000, 0001 ...
-        @name - запрос
+        РР·РјРµРЅРµРЅРёРµ РЅРѕРјРµСЂРѕРІ С„Р°Р№Р»РѕРІ РїРѕ РїРѕСЂСЏРґРєСѓ 0000, 0001 ...
+        @name - Р·Р°РїСЂРѕСЃ
         '''
         path = fm.getSourcesPath(name)
         jpg_files = os.listdir(path)
         digit_len = len(str(len(jpg_files)))
         
-        # Создаём список файлов в папке
+        # РЎРѕР·РґР°С‘Рј СЃРїРёСЃРѕРє С„Р°Р№Р»РѕРІ РІ РїР°РїРєРµ
         initial_number = 0;
-        # Перебираем каждый файл и увеличиваем порядковый номер
+        # РџРµСЂРµР±РёСЂР°РµРј РєР°Р¶РґС‹Р№ С„Р°Р№Р» Рё СѓРІРµР»РёС‡РёРІР°РµРј РїРѕСЂСЏРґРєРѕРІС‹Р№ РЅРѕРјРµСЂ
         for file_name in jpg_files:
             os.rename(path+'\\'+file_name, path + '\\' + f'tre_{initial_number}.jpg')
             initial_number += 1
@@ -220,8 +220,8 @@ class DataMod(object):
 
     def removeUnunique(name):
         '''
-        Удаление неуникальных файлов
-        @name - запрос
+        РЈРґР°Р»РµРЅРёРµ РЅРµСѓРЅРёРєР°Р»СЊРЅС‹С… С„Р°Р№Р»РѕРІ
+        @name - Р·Р°РїСЂРѕСЃ
         '''
         path = fm.getSmallPath(name)
         if not os.path.isdir(path):
@@ -244,8 +244,8 @@ class DataMod(object):
 
     def removeUnvalide(name):
         '''
-        Удаление недоступных файлов
-        @name - запрос
+        РЈРґР°Р»РµРЅРёРµ РЅРµРґРѕСЃС‚СѓРїРЅС‹С… С„Р°Р№Р»РѕРІ
+        @name - Р·Р°РїСЂРѕСЃ
         '''
         path = fm.getSourcesPath(name)
         if not os.path.isdir(path):
@@ -262,8 +262,8 @@ class DataMod(object):
     
     def resizeImages(name):
         '''
-        Масштабирование изображения
-        @name - запрос
+        РњР°СЃС€С‚Р°Р±РёСЂРѕРІР°РЅРёРµ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ
+        @name - Р·Р°РїСЂРѕСЃ
         '''
         height = 128
         width = 128
@@ -284,8 +284,8 @@ class DataMod(object):
 
     def clearData(name):
         '''
-        Очистка данных
-        @name - запрос
+        РћС‡РёСЃС‚РєР° РґР°РЅРЅС‹С…
+        @name - Р·Р°РїСЂРѕСЃ
         '''
         print(f'Start cleaning data {name}...')
         print('Remove unvalide files...')
