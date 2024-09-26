@@ -8,7 +8,7 @@ def main():
         while True:
             if(DataMod.clearData(value)>=countAmount):
                 break
-            DataMod.downloadFound(value,countAmount);
+            DataMod.imgSearch(value,countAmount);
               
 
 if __name__ == '__main__':

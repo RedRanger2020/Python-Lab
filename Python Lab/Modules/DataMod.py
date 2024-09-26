@@ -78,7 +78,7 @@ class DataMod(object):
             with requests.get(url, headers=HEADERS, stream=True, timeout=(5,15)) as r:
                 with open(path +'\\'+nameFile, 'wb') as f:
                     shutil.copyfileobj(r.raw, f)
-                    print(f'Download file[{nameFile}]: {url}')
+                    print(f'Downloaded file[{nameFile}]: {url}')
                     return True
         except requests.exceptions.SSLError as e:
             # Узнаем имя возникшего исключения
@@ -111,7 +111,7 @@ class DataMod(object):
 
         urls = []
         page = fm.getLastPage(name)
-        usedURLs = fm.getusedURLs(name)
+        usedURLs = fm.getUsedUrl(name)
         len_file = len(usedURLs)
         query = str.replace(name,' ','%20')
         
@@ -122,9 +122,9 @@ class DataMod(object):
         while imagesCount < needCount: 
             urls = DataMod.__parsePage(page, query)
             actualUrl = list(set(urls) - set(usedURLs))
-            print(f'Find {len(actualUrl)} urls')
+            print(f'Found {len(actualUrl)} urls')
             
-            with open(fm.getusedURLsPath(name), 'a') as file:
+            with open(fm.getUsedUrlPath(name), 'a') as file:
                 for url in actualUrl:
                     nameFile = 'download_' + str(len_file) + '.jpg'
                     isLoaded = DataMod.__download(name, url, nameFile, True)
@@ -288,11 +288,11 @@ class DataMod(object):
         @name - запрос
         '''
         print(f'Start cleaning data {name}...')
-        print('Remove unvalide files...')
+        print('Removing unvalide files...')
         DataMod.removeUnvalide(name)
-        print('Remove non-unique files...')
+        print('Removing non-unique files...')
         count = DataMod.removeUnunique(name)
-        print('Update indexs')
+        print('Updating indexs')
         DataMod.reinitIndexs(name)
         DataMod.resizeImages(name)
         return count
