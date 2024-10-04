@@ -73,7 +73,7 @@ class DataMod(object):
         @newLoad - индикатор первый ли вызов функции
         '''
         HEADERS = DataMod.__getHeaders()
-        path = fm.getSourcesPath(name);
+        path = fm.get_Sources_Path(name);
         try:
             with requests.get(url, headers=HEADERS, stream=True, timeout=(5,15)) as r:
                 with open(path +'\\'+nameFile, 'wb') as f:
@@ -110,12 +110,12 @@ class DataMod(object):
         '''
 
         urls = []
-        page = fm.getLastPage(name)
-        usedURLs = fm.getUsedUrl(name)
+        page = fm.get_Last_Page(name)
+        usedURLs = fm.get_Used_Url(name)
         len_file = len(usedURLs)
         query = str.replace(name,' ','%20')
         
-        path = fm.getSourcesPath(name)
+        path = fm.get_Sources_Path(name)
         jpg_files = os.listdir(path)
         imagesCount = len(jpg_files)
 
@@ -124,7 +124,7 @@ class DataMod(object):
             actualUrl = list(set(urls) - set(usedURLs))
             print(f'Found {len(actualUrl)} urls')
             
-            with open(fm.getUsedUrlPath(name), 'a') as file:
+            with open(fm.get_Used_Url_Path(name), 'a') as file:
                 for url in actualUrl:
                     nameFile = 'download_' + str(len_file) + '.jpg'
                     isLoaded = DataMod.__download(name, url, nameFile, True)
@@ -135,7 +135,7 @@ class DataMod(object):
                         imagesCount+=1
             print(f'{imagesCount} images out of {needCount}')
             page+=1
-            fm.saveLastPage(name,page)
+            fm.save_Last_Page(name,page)
 
     def __printInfoConnect(url, proxy, headers):
         '''
@@ -199,7 +199,7 @@ class DataMod(object):
         Изменение номеров файлов по порядку 0000, 0001 ...
         @name - запрос
         '''
-        path = fm.getSourcesPath(name)
+        path = fm.get_Sources_Path(name)
         jpg_files = os.listdir(path)
         digit_len = len(str(len(jpg_files)))
         
@@ -223,7 +223,7 @@ class DataMod(object):
         Удаление неуникальных файлов
         @name - запрос
         '''
-        path = fm.getSmallPath(name)
+        path = fm.get_Small_Path(name)
         if not os.path.isdir(path):
             return 0
         count = 0
@@ -247,7 +247,7 @@ class DataMod(object):
         Удаление недоступных файлов
         @name - запрос
         '''
-        path = fm.getSourcesPath(name)
+        path = fm.get_Sources_Path(name)
         if not os.path.isdir(path):
             return
         count = 0
@@ -268,8 +268,8 @@ class DataMod(object):
         height = 128
         width = 128
         size = (width, height)
-        path = fm.getSourcesPath(name)
-        smallP = fm.getSmallPath(name)
+        path = fm.get_Sources_Path(name)
+        smallP = fm.get_Small_Path(name)
 
         files_small = os.listdir(smallP)
         for sname in files_small:
