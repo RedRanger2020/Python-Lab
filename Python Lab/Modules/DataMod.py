@@ -10,10 +10,10 @@ from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 from fp.fp import FreeProxy
 
-'''
-Класс отвечает за получение и загрузку данных
-'''
 class DataMod(object):
+    '''
+    Класс отвечает за получение и загрузку данных
+    '''
     
     frp = FreeProxy(rand=True)
     lastProxies = {}

@@ -1,9 +1,9 @@
 import os
 
-'''
-Этот модуль работает с файлами
-'''
 class FolderMod:
+    '''
+    Этот модуль работает с файлами
+    '''
     
     def __createFolders(path):
         '''
