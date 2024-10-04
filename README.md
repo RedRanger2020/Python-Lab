@@ -5,7 +5,7 @@
   Версия python - 3.9
 </p>
 <p>
-  Библиотеки, указанные в файле <a href="...">requirements.txt</a>
+  Библиотеки, указанные в файле <a href="https://github.com/RedRanger2020/Python-Lab/blob/master/Python%20Lab/requirements.txt">requirements.txt</a>
 </p>
 
 <h2>Тестирование</h2>
