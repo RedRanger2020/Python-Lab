@@ -1,96 +1,107 @@
 import os
+from util.Scripts import create_folder
 
 class FolderMod:
     '''
     Этот модуль работает с файлами
     '''
     
-    def __create_folders(path):
+    def __init__(self, config):
         '''
-        создает папки по адресу
-        @path - путь к папке
+        Конструктор путей приложения
+        @config - конфигурационный файл приложения
         '''
-        if not os.path.isdir(path):
-            os.makedirs(path)
-        return path
+        self.path_dst = config.paths["datasets"]
+        create_folder(self.path_dst)
 
-    def __create_data_folder(name):
-        '''
-        создает папку для датасета
-        @name - имя датасета
-        '''
-        path = f'datasets\\{name}'
-        return FolderMod.__create_folders(path)
+        self.path_sys = config.paths["systems"]
+        create_folder(self.path_sys)
 
-    def __get_Systems_Path(name):
-        '''
-        получает путь к системным данным
-        @name - имя датасета
-        '''
-        path = FolderMod.__create_data_folder(name)
-        return FolderMod.__create_folders(path + f'\\__systems')
+        self.path_ann = config.paths["annotations"]
+        create_folder(self.path_ann)
 
-    def get_used_url_path(name):
-        '''
-        получает путь к обработанному файлу
-        @name - имя датасета
-        '''
-        return FolderMod.__get_Systems_Path(name) + f'\\url.txt'
-
-    def get_page_path(name):
-        '''
-        получает последнюю загруженную страницу
-        @name - имя датасета
-        '''
-        return FolderMod.__get_Systems_Path(name) + f'\\page.txt'
-
-    def get_sources_path(name):
-        '''
-        получает путь к папке с исходными изображениями
-        @name - имя датасета
-        '''
-        path = FolderMod.__create_data_folder(name)
-        return FolderMod.__create_folders(path + f'\\sources')
+        self.path_copy = config.paths["copy_to"]
+        create_folder(self.path_copy)
     
-    def get_small_path(name):
+    def create_annotation_folder(self):
         '''
-        получает путь к папке со сжатыми изображениями
-        @name - имя датасета
+        Создает папку "\\annotation"
+        @return - путь к папке c аннотациями
         '''
-        path = FolderMod.__create_data_folder(name)
-        return FolderMod.__create_folders(path + f'\\small_sources')
+        return self.path_ann
 
-    def get_last_page(name):
+    def path_used_url(self, name):
         '''
-        получает последнюю скачанную страницу для запроса
-        @name - имя датасета
+        Получает путь к файлу, хранящему списку ссылок, которые были обработаны в рамках запроса
+        @name - наименование(запрос) датасета
+        @return - путь к файлу с url
         '''
-        path = FolderMod.get_page_path(name)
-        pageCount = 0
+        return self.path_sys + f'\\{name}.urls'
+    
+    def get_path_ann(self, name):
+        '''
+        Получает путь к файлу, хранящему аннотацию датасета
+        @name - наименование(запрос) датасета
+        @return - путь к файлу с информацией о странице
+        '''
+        return self.get_sources_path(name) + '\\info.csv'
+
+    def path_page(self, name):
+        '''
+        Получает путь к файлу, хранящему значение последней загруженной страницы
+        @name - наименование(запрос) датасета
+        @return - путь к файлу с информацией о странице
+        '''
+        return self.path_sys + f'\\{name}.page'
+
+    def get_sources_path(self, name):
+        '''
+        Получает путь к папке с исходниками изображений
+        @name - наименование(запрос) датасета
+        @return - путь к файлу с ресурсами
+        '''
+        path = self.path_dst + f'\\{name}'
+        return create_folder(path)
+
+    def used_urls(self, name):
+        '''
+        Получает список обработанных ссылок на изображения
+        @name - наименование(запрос) датасета
+        @return - список ссылок
+        '''
+        path = self.path_used_url(name)
+        urls = []
         if os.path.exists(path):
-            with open(path, 'r') as file:
-                pageCount = int(file.read()) + 1
-        return pageCount
+            with open(path, 'r', encoding="utf-8") as file:
+                urls = file.read().split('\n')
+        return urls
 
-    def get_used_url(name):
+    def save_last_page(self, name, page):
         '''
-        получает список обработанных ссылок на изображения
-        @name - имя датасета
+        Сохраняет последнюю скачанную страницу
+        @name - наименование(запрос) датасета
+        @page - номер страницы
         '''
-        path = FolderMod.get_used_url_path(name)
-        usedURL = []
-        if os.path.exists(path):
-            with open(path, 'r') as file:
-                usedURL = file.read().split('\n')
-        return usedURL
-
-    def save_last_page(name, page):
-        '''
-        сохраняет последнюю скачанную страницу
-        @name - имя датасета
-        '''
-        path = FolderMod.get_page_path(name)
-        with open(path, 'w') as file:
+        path = self.path_page(name)
+        with open(path, 'w', encoding="utf-8") as file:
             file.write(str(page))
 
-    
+    def last_page(self, name):
+        '''
+        Получает последнюю скачанную страницу для запроса
+        @name - наименование(запрос) датасета
+        @return - номер последней страницы
+        '''
+        path = self.path_page(name)
+        count_page = 0
+        if os.path.exists(path):
+            with open(path, 'r', encoding="utf-8") as file:
+                count_page = int(file.read()) + 1
+        return count_page
+
+    def get_annotations(self):
+        '''
+        Получает список аннотаций
+        '''
+        path = self.create_annotation_folder()
+        return os.listdir(path)
