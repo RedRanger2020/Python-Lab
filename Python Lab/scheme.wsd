@@ -1,0 +1,74 @@
+@startuml scheme
+class DataMod {
+    download_images()
+    __print_info()
+    __get_html()
+    __parse_page()
+    __get_headers()
+    __download()
+    indexation()
+    open_or_delete()
+    resize_image()
+    delete_if_exist()
+    check_image()
+    create_dataset_from_files()
+    save_new_dataset()
+        proxy
+    config
+    fman
+    fake_header
+    __init__()
+}
+
+class Iterator {
+    __iter__()
+    __next__()
+    prev()
+    next()
+    get()
+        data
+    __init__()
+}
+
+SetMod <|-- Python_Lab.py
+DataMod <|-- Python_Lab.py
+FolderMod <|-- Python_Lab.py
+ProxyMod <|-- DataMod
+Scripts <|-- ProxyMod
+Scripts <|-- FolderMod
+Iterator <|-- Scripts
+
+class FolderMod {
+    create_annotation_folder()
+    path_used_url()
+    get_path_ann()
+    path_page()
+    get_sources_path()
+    used_urls()
+    save_last_page()
+    last_page()
+    get_annotations()
+        path_dst
+    path_sys
+    path_ann
+    path_copy
+    __init__()
+}
+FolderMod <|-- SetMod
+
+class ProxyMod {
+    __fill_proxy_list()
+    get()
+    get_next()
+        proxies
+    __init__()
+}
+
+class SetMod {
+        image_count
+    image_small
+    need_upd
+    generate_header
+    __init__()
+}
+@enduml

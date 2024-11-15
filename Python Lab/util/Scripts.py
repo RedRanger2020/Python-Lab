@@ -97,3 +97,11 @@ def get_iters_from_annotations(path_annot):
     for key, value in iters.items():
         res[key] = Iterator(value)
     return res
+
+def get_keys_from_dict(d):
+    '''
+    Получение ключей из словаря
+    @d - словарь
+    @return - список ключей
+    '''
+    return list(d.keys())

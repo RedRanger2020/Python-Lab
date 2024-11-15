@@ -17,7 +17,6 @@ def init_logger():
     logger.setLevel(log.DEBUG)
     ch = log.StreamHandler()
     ch.setLevel(log.DEBUG)
-    #ch.setFormatter(CustomFormatter())
     logger.addHandler(ch)
 
 def update_dataset(conf, fman):
