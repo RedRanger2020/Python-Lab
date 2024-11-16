@@ -63,3 +63,6 @@ pandas версии 2.2.3
 <p>
 6. Чтобы получить гистограммы, нажмите "Гистограмма по каналам"
 </p>
+<p>
+![image](https://github.com/user-attachments/assets/4cfd56df-4e6d-494a-b36f-df952254d637)
+</p>
