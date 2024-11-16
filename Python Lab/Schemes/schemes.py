@@ -66,7 +66,7 @@ def count_pixels_for_group(df):
     @return - отфильтрованный DataFrame с посчитанным количеством пикселей
     '''
     df['pixels'] = df['height'] * df['width']
-    grouped_df = df.groupby('label')['pixels'].agg(['max', 'min', 'mean']).reset_index()
+    grouped_df = df.groupby('label')['pixels'].agg(['max', 'min', 'mean', 'median']).reset_index()
     return grouped_df.to_string()
 
 def compute_histogram(df, class_label):
@@ -79,6 +79,19 @@ def compute_histogram(df, class_label):
     df = df_filter_1(df, class_label)
     # Конвертация изображения в формат BGR (OpenCV)
     path = df.loc[df.sample().index, 'absolute_path'].to_numpy()[0]
+    img = plt.imread(path)
+    # Вычисление гистограммы для каждого канала
+    hist_b = cv2.calcHist([img], [0], None, [256], [0, 256])
+    hist_g = cv2.calcHist([img], [1], None, [256], [0, 256])
+    hist_r = cv2.calcHist([img], [2], None, [256], [0, 256])
+    return hist_b, hist_g, hist_r
+
+def compute_histogram2(path):
+    '''
+    Вычисление гистограмм для класса метки
+    @class_label - метка будет отфильтрован DataFrame
+    @return Статистика DataFrame в строке
+    '''
     img = plt.imread(path)
     # Вычисление гистограммы для каждого канала
     hist_b = cv2.calcHist([img], [0], None, [256], [0, 256])

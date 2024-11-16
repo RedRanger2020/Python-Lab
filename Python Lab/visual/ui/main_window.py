@@ -70,6 +70,8 @@ class MainWindow(QMainWindow):
         btn_count.clicked.connect(self.btn_count_click)
         btn_gist = QPushButton("Гистограмма по каналам")
         btn_gist.clicked.connect(self.btn_gist_click)
+        #btn_gist_img = QPushButton("Гистограмма для изображения")
+        #btn_gist_img.clicked.connect(self.btn_gist_img_click)
         box_anal.addWidget(btn_stat)
         box_anal.addWidget(btn_count)
         box_anal.addWidget(btn_gist)
@@ -192,7 +194,7 @@ class MainWindow(QMainWindow):
             return
 
         path = f'{self.fm.create_annotation_folder()}\\{annot}'
-        df = s.annotation_to_frame(path,['polar bear', 'brown bear'])
+        df = s.annotation_to_frame(path,['cat', 'dog'])
         print(df)
         df = s.statistic(df)
         dialog = MessageDialog(df)
@@ -215,6 +217,19 @@ class MainWindow(QMainWindow):
     def btn_gist_click(self):
         '''
         Кнопка построения гистаграммы
+        '''
+        annot = self.cb_annot.currentText()
+        if annot == 'no':
+            return
+
+        path = f'{self.fm.create_annotation_folder()}\\{annot}'
+        df = s.annotation_to_frame(path, get_keys(self.iters))
+        b,g,r  = s.compute_histogram(df, 0)
+        s.plot_histograms(b,g,r)
+
+    def btn_gist_img_click(self):
+        '''
+        Кнопка построения гистаграммы по конкретной картинке
         '''
         annot = self.cb_annot.currentText()
         if annot == 'no':
