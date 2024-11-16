@@ -7,12 +7,18 @@ from visual.ui.main_window import MainWindow
 from PySide6.QtWidgets import QApplication
 
 def show_app(fman):
+    '''
+    Вызов граф. интерфейса
+    '''
     app = QApplication(sys.argv)
     w = MainWindow(fman)
     w.show()
     sys.exit(app.exec())
 
 def init_logger():
+    '''
+    Инициализация логгера
+    '''
     logger = log.getLogger("NT_analysis")
     logger.setLevel(log.DEBUG)
     ch = log.StreamHandler()
@@ -20,6 +26,9 @@ def init_logger():
     logger.addHandler(ch)
 
 def update_dataset(conf, fman):
+    '''
+    Обновление датасета
+    '''
     need_count = conf.image_count
     queries = conf.queries
 

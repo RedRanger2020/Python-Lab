@@ -9,6 +9,9 @@ class ProxyMod:
     '''
 
     def __init__(self):
+        '''
+        Конструктор класса
+        '''
         self.proxies = [{'http': ''}]
         self.__fill_proxy_list()
         self.counter = -1

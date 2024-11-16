@@ -18,6 +18,9 @@ class DataMod(object):
     Класс отвечает за получение и загрузку данных
     '''
     def __init__(self, config, fm):
+        '''
+        Конструктор класса
+        '''
         self.proxy = pm()
         self.config = config
         self.fman = fm
@@ -284,6 +287,11 @@ class DataMod(object):
         return self.delete_if_exist(image, query, path)
 
     def create_dataset_from_files(self, queries):
+        '''
+        Создание датасета из файлов
+        @queries - запросы
+        @return - сформированный DataFrame
+        '''
         cols = ['absolute_path', 'relate_path', 'tag']
         data_matrix = []
         for query in queries:
@@ -298,6 +306,11 @@ class DataMod(object):
         return pd.DataFrame(data=data_matrix, columns=cols)
 
     def save_new_dataset(self, queries, index_custom=False):
+        '''
+        Формирование и сохранение датасета
+        @queries - запросы
+        @index_custom - нужны ли индексы в файле
+        '''
         file_name = ''
         for query in queries:
             file_name +=f'[{query}]'

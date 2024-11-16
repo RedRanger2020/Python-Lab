@@ -26,11 +26,17 @@ def awaits(sec):
     sleep(1)
 
 def get_row(path, tag):
+    '''
+    Функция получения строки с нужным изображением
+    '''
     relative_path = path
     absolute_path = os.path.abspath(relative_path)
     return [absolute_path, relative_path, tag]
 
 def get_images(path):
+    '''
+    Функция получения нужного изображения
+    '''
     df = pd.read_csv(path, usecols=['relate_path', 'tag'])
     return df.iterrows()
     
@@ -88,6 +94,9 @@ def copy_dataset_to_tag(to_folder, ann_path, ann_directory):
     return full_name
 
 def get_iters_from_annotations(path_annot):
+    '''
+    Функция получения итераторов из аннотации
+    '''
     iters = defaultdict(list)
     df = pd.read_csv(path_annot)
     for _, row in df.iterrows():

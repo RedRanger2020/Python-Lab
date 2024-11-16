@@ -24,7 +24,13 @@ class MessageDialog(QMessageBox):
         self.setStandardButtons(QMessageBox.Ok)
 
 class MainWindow(QMainWindow):
+    '''
+    Класс, ответственный за интерфейс
+    '''
     def __init__(self, fm):
+        '''
+        Конструктор класса
+        '''
         super(MainWindow, self).__init__()
         self.fm = fm
         self.title = "Анализатор"

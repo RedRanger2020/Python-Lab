@@ -8,6 +8,9 @@ class SetMod:
     '''
 
     def __init__(self):
+        '''
+        Конструктор класса
+        '''
         with open('settings.xml', 'r', encoding="utf-8") as fd:
             xml_file = fd.read()
             soup = BeautifulSoup(xml_file, 'lxml')
