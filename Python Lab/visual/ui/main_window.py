@@ -70,11 +70,12 @@ class MainWindow(QMainWindow):
         btn_count.clicked.connect(self.btn_count_click)
         btn_gist = QPushButton("Гистограмма по каналам")
         btn_gist.clicked.connect(self.btn_gist_click)
-        #btn_gist_img = QPushButton("Гистограмма для изображения")
-        #btn_gist_img.clicked.connect(self.btn_gist_img_click)
+        btn_gist_img = QPushButton("Гистограмма для изображения")
+        btn_gist_img.clicked.connect(self.btn_gist_img_click)
         box_anal.addWidget(btn_stat)
         box_anal.addWidget(btn_count)
         box_anal.addWidget(btn_gist)
+        box_anal.addWidget(btn_gist_img)
 
         box_nav = QHBoxLayout()
         prev_btn = QPushButton("Предыдущее изображение")
@@ -229,14 +230,18 @@ class MainWindow(QMainWindow):
 
     def btn_gist_img_click(self):
         '''
-        Кнопка построения гистаграммы по конкретной картинке
+        Нажали на кнопку построения гистаграмм
         '''
         annot = self.cb_annot.currentText()
         if annot == 'no':
             return
+        
+        tag = self.cb_tag.currentText()
+        if tag == 'no' or tag == '':
+            return
 
-        path = f'{self.fm.create_annotation_folder()}\\{annot}'
-        df = s.annotation_to_frame(path, get_keys(self.iters))
-        b,g,r  = s.compute_histogram(df, 0)
+        it = self.iters[tag]
+        path = it.get()
+        b,g,r  = s.compute_histogram2(path)
         s.plot_histograms(b,g,r)
 

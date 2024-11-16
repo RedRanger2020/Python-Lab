@@ -27,11 +27,20 @@ def statistic(df):
     Вычисление статистики DataFrame
     @return Статистика DataFrame в строке
     '''
-    stats = df[['height', 'width', 'depth', 'label']].describe().to_string()
+    numeric_cols = ['height', 'width', 'depth', 'label']
+
+    # Calculate descriptive statistics, including median
+    stats = df[numeric_cols].describe()
+    medians = df[numeric_cols].median()
+    stats.loc['median'] = medians  # Add median row
+
+    stats_string = stats.to_string()
+    #stats = df[['height', 'width', 'depth', 'label']].describe().to_string()
     # Гистограмма по меткам
     label_counts = df['label'].value_counts()
     label_counts.plot(kind='pie', autopct='%1.1f%%')
     plt.show()
+    return stats_string
     return stats
 
 def df_filter_1(df, label):
