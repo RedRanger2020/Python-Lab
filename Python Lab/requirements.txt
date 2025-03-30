@@ -7,6 +7,8 @@ matplotlib==3.9.2
 fake-headers==1.0.2
 PySide6==6.7.3
 pandas==2.2.3
+tensorflow==2.9.1
+pathlib
 
 #syntaxis anylysis code
 pylint==3.3.1

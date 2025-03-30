@@ -10,6 +10,7 @@ from util.Scripts import copy_dataset_to_rand as copy_ds_rand
 from util.Scripts import get_iters_from_annotations as get_iters
 from util.Scripts import get_keys_from_dict as get_keys
 from Schemes import schemes as s
+from Modules.ModelMod import ModelMod as mm
 
 class MessageDialog(QMessageBox):
     '''
@@ -88,11 +89,17 @@ class MainWindow(QMainWindow):
         next_btn.clicked.connect(self.btn_next_click)
         box_nav.addWidget(next_btn)
 
+        box_stat = QHBoxLayout()
+        mod_btn = QPushButton("Создать модель")
+        mod_btn.clicked.connect(self.btn_mod_clicked)
+        box_stat.addWidget(mod_btn)
+
         vbox.addLayout(box_select)
         vbox.addLayout(box_create)
         vbox.addLayout(box_anal)
         vbox.addWidget(self.image_view)
         vbox.addLayout(box_nav)
+        vbox.addLayout(box_stat)
 
         window.setLayout(vbox)
         self.setCentralWidget(window)
@@ -244,4 +251,12 @@ class MainWindow(QMainWindow):
         path = it.get()
         b,g,r  = s.compute_histogram2(path)
         s.plot_histograms(b,g,r)
+
+    def btn_mod_clicked(self):
+        '''
+        Нажали на кнопку построения модели
+        '''
+        model = mm()
+        model.split_img()
+        model.make_model()
 
